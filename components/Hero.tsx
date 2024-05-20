@@ -1,6 +1,9 @@
 "use client";
 import { motion } from "framer-motion";
 import { HeroHighlight, Highlight } from "./ui/hero-highlight";
+import { Button } from "./ui/button";
+import { FaArrowRight } from "react-icons/fa";
+import Link from "next/link";
 
 export function Hero() {
   return (
@@ -24,6 +27,11 @@ export function Hero() {
         <Highlight className="text-black dark:text-white">
         Each echo, a repetition, of a repetition, of a repetition.
         </Highlight>
+        <div className="mt-4">
+          <Link  href="/dashboard">
+        <Button  className="p-4">Start the journey<FaArrowRight className="ml-2 hover:rotate-90 duration-200"/></Button>
+        </Link>
+        </div>
       </motion.h1>
     </HeroHighlight>
   );

@@ -10,43 +10,9 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id        Int        @id @default(autoincrement())
-  name      String
-  email     String     @unique
-  password  String
-  course    String
-  peers     Peer[]
-  resources Resource[]
-  createdAt DateTime   @default(now())
-}
-
-model Peer {
-  id             Int              @id @default(autoincrement())
-  name           String
-  email          String
-  course         String
-  user           User             @relation(fields: [userId], references: [id])
-  userId         Int
-  SharedResource SharedResource[]
-}
-
-model Resource {
-  id          Int              @id @default(autoincrement())
-  title       String
-  description String
-  category    String
-  url         String
-  user        User             @relation(fields: [userId], references: [id])
-  userId      Int
-  sharedWith  SharedResource[]
-}
-
-model SharedResource {
-  id         Int      @id @default(autoincrement())
-  resourceId Int
-  resource   Resource @relation(fields: [resourceId], references: [id])
-  peerId     Int
-  peer       Peer     @relation(fields: [peerId], references: [id])
-  createdAt  DateTime @default(now())
+model User{
+  id Int @id @default(autoincrement())
+  username String @unique
+  email String  @unique
+  password String
 }
