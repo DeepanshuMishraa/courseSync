@@ -1,5 +1,5 @@
+"use client"
 import * as React from "react"
-
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -18,24 +18,67 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import axios from "axios"
+import { useRouter } from "next/navigation"
 
-export function CreateSpace() {
+interface CreateSpaceProps {
+  onCancel: () => void;
+  onSubmit: (name: string, description: string, course: string) => Promise<void>;
+}
+
+export function CreateSpace({ onCancel, onSubmit }: CreateSpaceProps) {
+  const [name, setName] = React.useState("");
+  const [description, setDescription] = React.useState("");
+  const [course, setCourse] = React.useState("");
+  const [error, setError] = React.useState("");
+
+  const router = useRouter();
+
+  const handleSubmit = async () => {
+    try {
+      setError("");
+      await axios.post("/api/dashboard/spaces",{
+        name,
+        description,
+        course,
+      });
+      router.push("/");
+    } catch (e) {
+      console.log(e);
+      setError("Something went wrong");
+    }
+  };
+
   return (
     <Card className="w-[350px]">
       <CardHeader>
         <CardTitle>Create space</CardTitle>
-        <CardDescription>Create a new space  in one-click</CardDescription>
+        <CardDescription>Create a new space in one-click</CardDescription>
       </CardHeader>
       <CardContent>
         <form>
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="name">Name</Label>
-              <Input id="name" placeholder="Name of your space" />
+              <Input
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                id="name"
+                placeholder="Name of your space"
+              />
+            </div>
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="description">Description</Label>
+              <Input
+                id="description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="What's this space about?"
+              />
             </div>
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="course">Course</Label>
-              <Select>
+              <Select onValueChange={setCourse}>
                 <SelectTrigger id="framework">
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
@@ -55,8 +98,8 @@ export function CreateSpace() {
         </form>
       </CardContent>
       <CardFooter className="flex justify-between">
-        <Button variant="outline">Cancel</Button>
-        <Button>Begin</Button>
+        <Button variant="outline" onClick={onCancel}>Cancel</Button>
+        <Button onClick={handleSubmit}>Begin</Button>
       </CardFooter>
     </Card>
   )

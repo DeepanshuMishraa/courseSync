@@ -130,7 +130,7 @@ export function Register() {
             <Button type="submit" disabled={loading}>
   {loading ? (
     <div className="flex items-center">
-      <svg
+    <svg
         className="animate-spin h-5 w-5 mr-3 text-white dark:text-black"
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
