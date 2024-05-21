@@ -21,6 +21,7 @@ import { Input } from "@/components/ui/input"
 import { toast, useToast } from "@/components/ui/use-toast"
 import Navbar from "@/components/Navbar"
 import Footer from "@/components/Footer"
+import Link from "next/link"
 
 const FormSchema = z.object({
   username: z.string().min(2, {
@@ -156,7 +157,9 @@ export function Register() {
     "Register"
   )}
 </Button>
+<FormDescription className="text-xl text-center">not a member? <Link href="/login" className="text-blue-700 underline">Login</Link></FormDescription>
           </form>
+          <div></div>
         </Form>
       </div>
     </>
