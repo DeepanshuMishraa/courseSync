@@ -22,11 +22,10 @@ import axios from "axios"
 import { useRouter } from "next/navigation"
 
 interface CreateSpaceProps {
-  onCancel: () => void;
-  onSubmit: (name: string, description: string, course: string) => Promise<void>;
+  onCancel?: () => void;
 }
 
-export function CreateSpace({ onCancel, onSubmit }: CreateSpaceProps) {
+export function CreateSpace({ onCancel }: CreateSpaceProps) {
   const [name, setName] = React.useState("");
   const [description, setDescription] = React.useState("");
   const [course, setCourse] = React.useState("");

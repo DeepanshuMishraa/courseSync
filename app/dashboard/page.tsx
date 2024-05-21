@@ -58,7 +58,7 @@ export default function Dashboard() {
                   <CreateSpace />
                 </div>
               ) : (
-                <div className="grid grid-cols-4 gap-4 max-lg:grid-cols-1 mt-8 ml-4">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4  mt-8 ml-4">
                   {spaces.map((space) => (
                     <Link key={space.id} href="/spaces/:id">
                       <div className="p-4 border-2 border-gray-700 dark:border-gray-900 rounded-lg hover:scale-105 duration-100 flex flex-col">

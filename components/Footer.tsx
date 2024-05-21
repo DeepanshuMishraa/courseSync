@@ -4,16 +4,16 @@ import { FaGithub, FaInstagram, FaTwitter } from "react-icons/fa"
 
 const Footer = () => {
   return (
-    <div className="w-full h-52 md:h-30 lg:h-48  bg-transparent bottom-0 flex">
+    <div className="w-full h-52 md:h-30 lg:h-48  max-lg:hidden bg-transparent bottom-0 flex">
         <div className="flex ml-52 gap-10">
         <Link href="/" className="text-4xl p-4 mt-8">CourseSync</Link>
-        <h1 className="text-lg p-4 mt-8">Quick Links
-        <div className="flex flex-col mt-4">
-            <a className="hover:text-blue-700 duration-150 cursor-pointer">Github</a>
-            <a className="hover:text-blue-700 duration-150 cursor-pointer">About Dev</a>
-            <a className="hover:text-blue-700 duration-150 cursor-pointer">Docs</a>  
-        </div>
-        </h1>
+    <h1 className="text-lg p-4 mt-8">Quick Links
+    <div className="flex flex-col mt-4">
+        <a className="hover:text-blue-700 duration-150 cursor-pointer">Github</a>
+        <a className="hover:text-blue-700 duration-150 cursor-pointer">About Dev</a>
+        <a className="hover:text-blue-700 duration-150 cursor-pointer">Docs</a>  
+    </div>
+    </h1>
         </div>
         <div className="mt-8 p-4 ml-16 flex flex-col">
             <h1>Contact Us</h1>
