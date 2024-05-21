@@ -35,7 +35,7 @@ const FormSchema = z.object({
   }),
 })
 
-export function Register() {
+export default function Register() {
   const [error, setError] = useState<string>("")
   const [loading, setLoading] = useState<boolean>(false)
   const router = useRouter()
@@ -166,4 +166,4 @@ export function Register() {
   )
 }
 
-export default Register
+
