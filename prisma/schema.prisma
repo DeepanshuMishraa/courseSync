@@ -10,6 +10,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+
 model User {
   id       Int      @id @default(autoincrement())
   username String   @unique
@@ -19,11 +20,28 @@ model User {
 }
 
 model Space {
-  id       Int      @id @default(autoincrement())
-  name     String
-  course   String
+  id          Int       @id @default(autoincrement())
+  name        String
+  course      String
   description String
-  userId   Int
-  user     User     @relation(fields: [userId], references: [id])
+  userId      Int
+  user        User      @relation(fields: [userId], references: [id])
+  resources   Resource[]
 }
 
+model Resource {
+  id      Int      @id @default(autoincrement())
+  name    String
+  spaceId Int
+  space   Space    @relation(fields: [spaceId], references: [id])
+  pages   Page[]
+}
+
+model Page {
+  id          Int      @id @default(autoincrement())
+  title       String
+  content     String
+  notes  String
+  resourceId  Int
+  resource    Resource @relation(fields: [resourceId], references: [id])
+}

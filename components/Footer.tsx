@@ -2,7 +2,34 @@
 import Link from "next/link"
 import { FaGithub, FaInstagram, FaTwitter } from "react-icons/fa"
 
-const Footer = () => {
+
+const Footer = ()=>{
+    return (
+        <>
+        <DesktopFooter/>
+        <MobileFooter/>
+        </>
+    )
+}
+
+
+
+const MobileFooter = ()=>{
+    return(
+        <div className="w-full md:hidden lg:hidden border-t border-black h-56">
+        <div className=" mt-10">
+            <h1 className="flex text-lg  font-bold items-center justify-center">&copy; CourseSync 2024</h1>
+        </div>
+        <div className="flex mt-10 space-x-4 justify-center ">
+                    <Link className="hover:text-blue-600 duration-200" href="/"><FaInstagram size={30}/></Link>
+                    <Link className="hover:text-blue-600 duration-200" href="/"><FaTwitter size={30}/></Link>
+                    <Link className="hover:text-blue-600 duration-200" href="/"><FaGithub size={30}/></Link>
+                </div>
+        </div>
+    )
+}
+
+const DesktopFooter = () => {
   return (
     <div className="w-full h-52 md:h-30 lg:h-48  max-lg:hidden bg-transparent bottom-0 flex">
         <div className="flex ml-52 gap-10">

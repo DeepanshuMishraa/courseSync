@@ -10,6 +10,7 @@ import { Sheet, SheetContent, SheetTrigger } from './ui/sheet';
 import { Toggle1 } from './ui/toggle-no-dropdown';
 import { Avatar } from './ui/avatar';
 import { FaGithub, FaInstagram, FaTwitter } from 'react-icons/fa';
+import { Avatar1 } from './Dashboard/Avatar';
 
 const Navbar = () => {
   return (
@@ -32,7 +33,7 @@ function MobileNavbar(){
                             <Menu/>
                         </Button>
                     </SheetTrigger>
-                    <SheetContent className="w-[400px] sm:w-[540px]" side="left">
+                    <SheetContent className="w-[300px] sm:w-[540px]" side="left">
                         <Link href="/" className='text-3xl  border-b border-separate dark:border-white font-bold text-center'>CourseSync</Link>
                         <div className='mt-8 flex flex-col space-y-4 text-2xl font-medium'>
                           <Link href="/register" className='hover:scale-105 duration-200'>Create an account</Link>
@@ -74,7 +75,6 @@ function MobileNavbar(){
                 </div>
                 <div className='flex items-center justify-end gap-2'>
                     <Toggle1/>
-                    <Avatar/>
                 </div>
             </nav>
         </div>
