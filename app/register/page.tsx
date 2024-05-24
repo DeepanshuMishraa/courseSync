@@ -54,7 +54,7 @@ export default function Register() {
     try {
       form.reset();
       setLoading(true)
-      const res = await axios.post("http://localhost:3000/api/register", data)
+      const res = await axios.post("/api/register", data)
 
       if (res.status === 201 || res.status === 200) {
         console.log("success")
