@@ -1,13 +1,11 @@
 import { authOptions } from "@/lib/auth";
-import { PrismaClient } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
-
-const prisma = new PrismaClient();
+import prisma from "@/lib/db";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { resourceId: string } }
+  { params }: { params: { id: string; resourceId: string } }
 ) {
   const session = await getServerSession(authOptions);
   if (!session) {
@@ -29,7 +27,7 @@ export async function GET(
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { resourceId: string } }
+  { params }: { params: { id: string; resourceId: string } }
 ) {
   const session = await getServerSession(authOptions);
   const reqBody = await req.json();
@@ -71,6 +69,55 @@ export async function POST(
     });
 
     return NextResponse.json(page, { status: 201 });
+  } catch (e) {
+    console.error(e);
+    return NextResponse.json({
+      message: "Something went wrong",
+      status: 500,
+    });
+  }
+}
+
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: { id: string; resourceId: string } }
+) {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    return NextResponse.json({ message: "Unauthorized", status: 401 });
+  }
+
+  const reqUrl = new URL(req.url);
+  const pageId = parseInt(reqUrl.searchParams.get("pageId") as string, 10);
+
+  if (isNaN(pageId)) {
+    return NextResponse.json({ message: "Invalid page ID", status: 400 });
+  }
+
+  const resourceId = parseInt(params.resourceId, 10);
+
+  try {
+    // Check if the resource exists
+    const resource = await prisma.resource.findUnique({
+      where: { id: resourceId },
+    });
+
+    if (!resource) {
+      return NextResponse.json({
+        message: "Resource not found",
+        status: 404,
+      });
+    }
+
+    await prisma.page.delete({
+      where: { id: pageId },
+    });
+
+    return NextResponse.json(
+      { message: "Page deleted successfully" },
+      { status: 200 }
+    );
   } catch (e) {
     console.error(e);
     return NextResponse.json({

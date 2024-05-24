@@ -1,9 +1,7 @@
 import { authOptions } from "@/lib/auth";
-import { PrismaClient } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
-
-const prisma = new PrismaClient();
+import prisma from "@/lib/db";
 
 export async function GET(
   req: NextRequest,
@@ -58,6 +56,49 @@ export async function POST(
     });
 
     return NextResponse.json(resource, { status: 201 });
+  } catch (e) {
+    console.error(e);
+    return NextResponse.json({ message: "Something went wrong", status: 500 });
+  }
+}
+
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    return NextResponse.json({ message: "Unauthorized", status: 401 });
+  }
+
+  const spaceId = parseInt(params.id, 10);
+  const reqUrl = new URL(req.url);
+  const resourceId = parseInt(
+    reqUrl.searchParams.get("resourceId") as string,
+    10
+  );
+
+  if (isNaN(resourceId)) {
+    return NextResponse.json({ message: "Invalid resource ID", status: 400 });
+  }
+
+  try {
+    // First, delete all pages associated with the resource
+    await prisma.page.deleteMany({
+      where: {
+        resourceId,
+      },
+    });
+
+    // Then, delete the resource
+    await prisma.resource.delete({
+      where: {
+        id: resourceId,
+      },
+    });
+
+    return NextResponse.json({ message: "Resource deleted", status: 200 });
   } catch (e) {
     console.error(e);
     return NextResponse.json({ message: "Something went wrong", status: 500 });

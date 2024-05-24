@@ -2,3 +2,5 @@ CourseSync: Organize, Share, Learn. A collaborative platform for students to man
 
 
 A Hackathon project by Deepanshu Mishra
+
+-> return; in useEffect to 
