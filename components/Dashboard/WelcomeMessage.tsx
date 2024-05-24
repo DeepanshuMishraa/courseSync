@@ -13,7 +13,7 @@ const WelcomeMessage = () => {
         !
       </h1>
       <p className="text-lg text-gray-600 mb-6">
-        We're glad to have you here. Your dashboard is your central hub for
+        We&apos;re glad to have you here. Your dashboard is your central hub for
         managing resources and pages efficiently.
       </p>
       <p className="text-lg text-gray-600 mb-6">
