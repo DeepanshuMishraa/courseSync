@@ -11,9 +11,12 @@ import { useState } from "react";
 import { Separator } from "../ui/separator";
 import { CommandMenu } from "../Search";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
-import { Menu } from "lucide-react";
+import { LogOutIcon, Menu, Settings, User } from "lucide-react";
 import { Avatar } from "../ui/avatar";
 import { Avatar1 } from "./Avatar";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
+import { DropdownMenuGroup } from "@radix-ui/react-dropdown-menu";
+import { GitHubLogoIcon } from "@radix-ui/react-icons";
 
 
 const DashNav = ()=>{
@@ -75,33 +78,42 @@ const DesktopNav = () => {
       <div className="flex items-center gap-4">
       <CommandMenu/>
         <Toggle1/>
-      <div className="rounded-full object-cover">
-        <button onClick={()=>setIsToggle(!isToggle)} className="rounded-full object-cover bg-transparent">
-        <Image alt="Profile" src={Profile}
-        width={40}
-        height={40}
-        className="rounded-full cursor-pointer hover:scale-105 duration-200"
-        />
-        </button>
-
-        {isToggle && <div className="absolute top-16 right-0 rounded-lg bg-gray-600 shadow-lg p-4">
-            <div className="flex flex-col justify-center items-center text-white">
-                <h1 className="text-lg">Welcome {session?.data?.user?.username}</h1>
-                <Separator/>
-                <Link href="/update">Settings</Link>
-                <Separator/>
-                <Link href="/friends">Friends</Link>
-                <Separator/>
-                <button onClick={()=>signOut({
+        <div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button className="bg-transparent" variant="null"><Avatar1/></Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56">
+            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuSeparator/>
+              <DropdownMenuGroup>
+                <DropdownMenuItem>
+                <User className="mr-2 h-4 w-4"/>
+                <h1>Welcome <span className="uppercase text-blue-700 font-bold">{session?.data?.user.username}</span></h1>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Settings className="mr-2 h-4 w-4"/>
+                  <Link href="/update">Profile</Link> 
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <GitHubLogoIcon className="mr-2 h-4 w-4"/>
+                  <Link href="https://github.com/DeepanshuMishraa/courseSync">Github</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <LogOutIcon className="mr-2 h-4 w-4"/>
+                  <button onClick={()=>signOut({
         redirect:true,
         callbackUrl:`${window.location.origin}/login`
       })}>Logout</button>
-            </div>
-            </div>}
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
 
       </div>
       </div>
-    </div>
   );
 };
 

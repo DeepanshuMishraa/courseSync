@@ -22,8 +22,8 @@ const MobileFooter = ()=>{
         </div>
         <div className="flex mt-10 space-x-4 justify-center ">
                     <Link className="hover:text-blue-600 duration-200" href="/"><FaInstagram size={30}/></Link>
-                    <Link className="hover:text-blue-600 duration-200" href="/"><FaTwitter size={30}/></Link>
-                    <Link className="hover:text-blue-600 duration-200" href="/"><FaGithub size={30}/></Link>
+                    <Link className="hover:text-blue-600 duration-200" href="https://x.com/@Deepanshudipxsy"><FaTwitter size={30}/></Link>
+                    <Link  className="hover:text-blue-600 duration-200" href="https://github.com/DeepanshuMishraa/courseSync"><FaGithub size={30}/></Link>
                 </div>
         </div>
     )
@@ -36,9 +36,9 @@ const DesktopFooter = () => {
         <Link href="/" className="text-4xl p-4 mt-8">CourseSync</Link>
     <h1 className="text-lg p-4 mt-8">Quick Links
     <div className="flex flex-col mt-4">
-        <a className="hover:text-blue-700 duration-150 cursor-pointer">Github</a>
-        <a className="hover:text-blue-700 duration-150 cursor-pointer">About Dev</a>
-        <a className="hover:text-blue-700 duration-150 cursor-pointer">Docs</a>  
+        <a href="https://github.com/DeepanshuMishraa/courseSync" className="hover:text-blue-700 duration-150 cursor-pointer">Github</a>
+        <a href="https://deepanshumishra.vercel.app" className="hover:text-blue-700 duration-150 cursor-pointer">About Dev</a>
+        <a href="https://github.com/DeepanshuMishraa/courseSync/blob/master/README.md" className="hover:text-blue-700 duration-150 cursor-pointer">Docs</a>  
     </div>
     </h1>
         </div>
@@ -49,8 +49,8 @@ const DesktopFooter = () => {
                 <h1>Socials</h1>
                 <div className="flex mt-2 space-x-4">
                     <Link className="hover:text-blue-600 duration-200" href="/"><FaInstagram size={30}/></Link>
-                    <Link className="hover:text-blue-600 duration-200" href="/"><FaTwitter size={30}/></Link>
-                    <Link className="hover:text-blue-600 duration-200" href="/"><FaGithub size={30}/></Link>
+                    <Link className="hover:text-blue-600 duration-200" href="https://x.com/@Deepanshudipxsy"><FaTwitter size={30}/></Link>
+                    <Link className="hover:text-blue-600 duration-200" href="https://github.com/DeepanshuMishraa/courseSync"><FaGithub size={30}/></Link>
                 </div>
             </div>
         </div>

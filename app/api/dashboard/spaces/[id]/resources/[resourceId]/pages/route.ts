@@ -126,3 +126,55 @@ export async function DELETE(
     });
   }
 }
+
+
+
+export async function PUT(
+  req: NextRequest,
+  { params }: { params: { id: string; resourceId: string } }
+) {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    return NextResponse.json({ message: "Unauthorized", status: 401 });
+  }
+
+  const reqBody = await req.json();
+  const { content } = reqBody;
+
+  if (!content) {
+    return NextResponse.json({
+      message: "Missing required fields",
+      status: 400,
+    });
+  }
+
+  const resourceId = parseInt(params.resourceId, 10);
+
+  try {
+    // Check if the resource exists
+    const resource = await prisma.resource.findUnique({
+      where: { id: resourceId },
+    });
+
+    if (!resource) {
+      return NextResponse.json({
+        message: "Resource not found",
+        status: 404,
+      });
+    }
+
+    // Update the content of all pages associated with the resource
+    const updatedPages = await prisma.page.updateMany({
+      where: { resourceId },
+      data: { content },
+    });
+
+    return NextResponse.json(updatedPages, { status: 200 });
+  } catch (e) {
+    console.error("Error updating pages:", e);
+    return NextResponse.json({
+      message: "Something went wrong",
+      status: 500,
+    });
+  }
+}

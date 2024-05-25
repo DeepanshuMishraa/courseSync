@@ -8,6 +8,7 @@ import axios from "axios";
 import ContextMenuDemo from "@/components/Dashboard/Context-menu";
 import WelcomeMessage from "@/components/Dashboard/WelcomeMessage";
 import ChatComponent from "@/components/Chatter";
+import Footer from "@/components/Footer";
 
 interface Resource {
   id: number;
@@ -102,16 +103,15 @@ export default function SpacePage({ params }: { params: { id: string } }) {
         <div className="w-3/4 h-screen p-4">
           {selectedPage ? (
             <div>
-              <h1 className="text-2xl font-bold mb-4">{selectedPage.title}</h1>
-              <div>
-                <h2 className="text-xl font-semibold">Content:</h2>
-                <p>{selectedPage.content}</p>
+              <h1 className="text-3xl text-blue-700 font-bold mb-4 text-center underline">{selectedPage.title}</h1>
+              <div className="mt-16">
+                <h2 className="text-2xl font-semibold text-center">Content:</h2>
+                <p className="text-lg p-2 mt-6">{selectedPage.content}</p>
               </div>
-              <div>
-                <h2 className="text-xl font-semibold">Notes:</h2>
-                <p>{selectedPage.notes}</p>
+              <div className="mt-16">
+                <h2 className="text-xl font-semibold text-center">Notes:</h2>
+                <p className="text-lg p-2 mt-6">{selectedPage.notes}</p>
               </div>
-                <ChatComponent/>
             </div>
           ) : (
             <WelcomeMessage/>
@@ -147,6 +147,7 @@ export default function SpacePage({ params }: { params: { id: string } }) {
           </form>
         </SheetContent>
       </Sheet>
+      <Footer/>
     </>
   );
 }
