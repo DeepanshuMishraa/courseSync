@@ -6,6 +6,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { PlusCircledIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
+import Spinner from "@/components/Spinner";
 
 interface Space {
   id: number;
@@ -43,7 +44,7 @@ export default function Dashboard() {
     <>
       <DashNav />
       {spaces === null ? (
-        <p>Loading...</p>
+        <Spinner/>
       ) : (
         <>
           {!showCreateSpace && (
