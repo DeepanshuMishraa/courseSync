@@ -87,7 +87,6 @@ Here is what you need to be able to run Cal.com.
 
    - Duplicate `.env.example` to `.env`
    - Use `openssl rand -base64 32` to generate a key and add it under `NEXTAUTH_SECRET` in the `.env` file.
-   - Use `openssl rand -base64 32` to generate a key and add it under `CALENDSO_ENCRYPTION_KEY` in the `.env` file.
 
 
 
@@ -136,8 +135,6 @@ Here is what you need to be able to run Cal.com.
 
    ```sh
    npx prisma deploy
-   ```
-
    ```
 
 1. Run (in development mode)
@@ -221,7 +218,7 @@ Here is what you need to be able to run Cal.com.
 
 you can use vercel to deploy this application. make sure to add the environment variables in the vercel dashboard.
 
-[![Deploy with Vercel](https://vercel.com/?ref=course-sync.vercel.app)]
+[Deploy with Vercel](https://vercel.com/?ref=course-sync.vercel.app)
 
 
 <!-- ACKNOWLEDGEMENTS -->
