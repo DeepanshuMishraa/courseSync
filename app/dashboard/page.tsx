@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { PlusCircledIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import { SkeletonCard } from "@/components/Skeleton";
+import Spinner from "@/components/Spinner";
 
 interface Space {
   id: number;
@@ -44,7 +45,8 @@ export default function Dashboard() {
     <>
       <DashNav />
       {spaces === null ? (
-        <div>
+        <div className="flex items-center justify-center h-screen">
+          <Spinner/>
         </div>
       ) : (
         <>
