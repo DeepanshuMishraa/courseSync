@@ -45,7 +45,7 @@ import Link from "next/link"
           <CommandGroup heading="Suggestions">
             <Link className="cursor-pointer hover:text-blue-700" href="/dashboard"><CommandItem>Your spaces</CommandItem></Link>
             <Link className="cursor-pointer hover:text-blue-700" href="/dashboard/1"><CommandItem>Your Resources</CommandItem></Link>
-            <CommandItem>Settings</CommandItem>
+            <Link href="/update"><CommandItem>Settings</CommandItem></Link>
             <CommandItem>Documentation</CommandItem>
           </CommandGroup>
         </CommandList>

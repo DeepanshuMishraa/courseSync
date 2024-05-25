@@ -7,6 +7,7 @@ import { Sheet, SheetContent } from "@/components/ui/sheet";
 import axios from "axios";
 import ContextMenuDemo from "@/components/Dashboard/Context-menu";
 import WelcomeMessage from "@/components/Dashboard/WelcomeMessage";
+import ChatComponent from "@/components/Chatter";
 
 interface Resource {
   id: number;
@@ -110,6 +111,7 @@ export default function SpacePage({ params }: { params: { id: string } }) {
                 <h2 className="text-xl font-semibold">Notes:</h2>
                 <p>{selectedPage.notes}</p>
               </div>
+                <ChatComponent/>
             </div>
           ) : (
             <WelcomeMessage/>

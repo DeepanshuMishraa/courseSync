@@ -88,7 +88,7 @@ const DesktopNav = () => {
             <div className="flex flex-col justify-center items-center text-white">
                 <h1 className="text-lg">Welcome {session?.data?.user?.username}</h1>
                 <Separator/>
-                <Link href="/add-friend">Add Friend</Link>
+                <Link href="/update">Settings</Link>
                 <Separator/>
                 <Link href="/friends">Friends</Link>
                 <Separator/>
