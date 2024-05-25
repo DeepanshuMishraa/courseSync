@@ -81,7 +81,7 @@ const DesktopNav = () => {
         <div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button className="bg-transparent" variant="null"><Avatar1/></Button>
+              <Button className="bg-transparent" variant={null}><Avatar1/></Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56">
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
