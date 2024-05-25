@@ -1,12 +1,10 @@
-"use client"
+"use client";
 import DashNav from "@/components/Dashboard/DashNav";
 import { Button } from "@/components/ui/button";
 import { CreateSpace } from "@/components/Dashboard/CreateSpace";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { PlusCircledIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
-import { SkeletonCard } from "@/components/Skeleton";
 import Spinner from "@/components/Spinner";
 
 interface Space {
@@ -25,9 +23,15 @@ export default function Dashboard() {
     async function fetchSpaces() {
       try {
         const res = await axios.get("/api/dashboard/spaces");
-        setSpaces(res.data);
+        if (Array.isArray(res.data)) {
+          setSpaces(res.data);
+        } else {
+          console.error("Unexpected response format:", res.data);
+          setSpaces([]);
+        }
       } catch (error) {
         console.error("Error fetching spaces:", error);
+        setSpaces([]);
       }
     }
     fetchSpaces();
@@ -46,7 +50,7 @@ export default function Dashboard() {
       <DashNav />
       {spaces === null ? (
         <div className="flex items-center justify-center h-screen">
-          <Spinner/>
+          <Spinner />
         </div>
       ) : (
         <>
@@ -62,7 +66,7 @@ export default function Dashboard() {
                   <CreateSpace />
                 </div>
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4  mt-8 ml-4">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-8 ml-4">
                   {spaces.map((space) => (
                     <Link key={space.id} href={`/dashboard/${space.id}`}>
                       <div className="p-4 border-2 border-gray-700 dark:border-gray-900 rounded-lg hover:scale-105 duration-100 flex flex-col">
@@ -85,9 +89,7 @@ export default function Dashboard() {
           )}
           {showCreateSpace && (
             <div className="flex items-center justify-center h-screen">
-              <CreateSpace
-              onCancel={handleCancelCreateSpace}
-              />
+              <CreateSpace onCancel={handleCancelCreateSpace} />
             </div>
           )}
         </>
