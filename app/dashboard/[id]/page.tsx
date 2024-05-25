@@ -104,13 +104,13 @@ export default function SpacePage({ params }: { params: { id: string } }) {
           {selectedPage ? (
             <div>
               <h1 className="text-3xl text-blue-700 font-bold mb-4 text-center underline">{selectedPage.title}</h1>
-              <div className="mt-16">
-                <h2 className="text-2xl font-semibold text-center">Content:</h2>
-                <p className="text-lg p-2 mt-6">{selectedPage.content}</p>
+              <div className="mt-6">
+                <h2 className="text-2xl font-semibold text-center underline text-blue-500">Content:</h2>
+                <p className="text-lg p-2 mt-2">{selectedPage.content}</p>
               </div>
-              <div className="mt-16">
-                <h2 className="text-xl font-semibold text-center">Notes:</h2>
-                <p className="text-lg p-2 mt-6">{selectedPage.notes}</p>
+              <div className="mt-6">
+                <h2 className="text-xl font-semibold text-center text-blue-500 underline">Notes:</h2>
+                <p className="text-lg p-2 mt-2">{selectedPage.notes}</p>
               </div>
             </div>
           ) : (
@@ -147,7 +147,6 @@ export default function SpacePage({ params }: { params: { id: string } }) {
           </form>
         </SheetContent>
       </Sheet>
-      <Footer/>
     </>
   );
 }
