@@ -27,6 +27,7 @@ export default function UpdateUser() {
     const [currentPassword, setCurrentPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [error, setError] = useState("");
+    const [loading,setLoading] = useState(false);
 
     const handleInfoUpdate = async () => {
         console.log("Name:", name);
@@ -38,11 +39,14 @@ export default function UpdateUser() {
         }
 
         try {
+            setLoading(true);
             const res = await axios.put("/api/update/user/account", { name, updatedUsername: username });
             console.log(res.data);
         } catch (e) {
             setError("Something went wrong");
             console.log(e);
+        }finally{
+            setLoading(false);
         }
     }
 
@@ -78,7 +82,7 @@ export default function UpdateUser() {
                             <CardHeader>
                                 <CardTitle>Account</CardTitle>
                                 <CardDescription>
-                                    Make changes to your account here. Click save when you're done.
+                                    Make changes to your account here. Click save when you&apos;re done.
                                 </CardDescription>
                             </CardHeader>
                             <CardContent className="space-y-2">
@@ -93,6 +97,8 @@ export default function UpdateUser() {
                             </CardContent>
                             <CardFooter>
                                 <Button onClick={handleInfoUpdate}>Save changes</Button>
+                                {error && <p className="text-red-500">{error}</p>}
+                                {loading && <p className="text-blue-500">Processing..</p>}
                             </CardFooter>
                         </Card>
                     </TabsContent>
@@ -116,6 +122,8 @@ export default function UpdateUser() {
                             </CardContent>
                             <CardFooter>
                                 <Button onClick={handlePasswordUpdate}>Save password</Button>
+                                {error && <p className="text-red-500">{error}</p>}
+                                {loading && <p className="text-blue-500">Processing..</p>}
                             </CardFooter>
                         </Card>
                     </TabsContent>
