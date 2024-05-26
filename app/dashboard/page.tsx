@@ -18,6 +18,7 @@ interface Space {
 export default function Dashboard() {
   const [spaces, setSpaces] = useState<Space[]>([]);
   const [showCreateSpace, setShowCreateSpace] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchSpaces() {
@@ -26,6 +27,8 @@ export default function Dashboard() {
         setSpaces(res.data);
       } catch (error) {
         console.error("Error fetching spaces:", error);
+      } finally {
+        setLoading(false);
       }
     }
     fetchSpaces();
@@ -47,8 +50,10 @@ export default function Dashboard() {
   return (
     <>
       <DashNav />
-      {spaces === null ? (
-        <Spinner/>
+      {loading ? (
+        <div className="flex items-center justify-center h-screen">
+          <Spinner />
+        </div>
       ) : (
         <>
           {!showCreateSpace && (
