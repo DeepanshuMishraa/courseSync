@@ -15,6 +15,7 @@ import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { Dialog, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
 import { DialogContent, DialogDescription } from "@radix-ui/react-dialog";
+import toast from "react-hot-toast";
 
 interface Resource {
   id: number;
@@ -52,17 +53,21 @@ export default function ContextMenuDemo({
   const [pageTitle, setPageTitle] = useState("");
   const [pageContent, setPageContent] = useState("");
   const [pageNotes, setPageNotes] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleCreatePage = async (event: React.FormEvent) => {
     event.preventDefault();
     if (!selectedResource) return;
 
     try {
+      setLoading(true);
       const res = await axios.post(`/api/dashboard/spaces/${params.id}/resources/${selectedResource.id}/pages/`, {
         title: pageTitle,
         notes: pageNotes,
         content: pageContent,
       });
+
+      toast.success("Page created successfully");
 
       const newPage = res.data;
       setSelectedResource({
@@ -76,12 +81,16 @@ export default function ContextMenuDemo({
         )
       );
 
+
       setShowCreatePage(false);
       setPageTitle("");
       setPageContent("");
       setPageNotes("");
     } catch (error) {
+      toast.error("Error creating page");
       console.error("Error creating page:", error);
+    }finally{
+      setLoading(false);
     }
   };
 
@@ -184,7 +193,36 @@ export default function ContextMenuDemo({
             </div>
           </form>
           <DialogFooter>
-          <Button type="submit" onClick={handleCreatePage}>Save Changes</Button>
+          <Button type="submit" onClick={handleCreatePage}>
+          {loading ? (
+  <div className="flex items-center">
+    <svg
+      className="animate-spin h-5 w-5 mr-3 text-white dark:text-black"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <circle
+        className="opacity-25"
+        cx="12"
+        cy="12"
+        r="10"
+        stroke="currentColor"
+        strokeWidth="4"
+      ></circle>
+      <path
+        className="opacity-75"
+        fill="currentColor"
+        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+      ></path>
+    </svg>
+    Processing
+  </div>
+) : (
+  "Save changes"
+)}
+
+          </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
