@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/tabs"
 import axios from "axios";
 import { useState } from "react"
+import toast, { Toaster } from "react-hot-toast";
 
 export default function UpdateUser() {
     const [name, setName] = useState("");
@@ -41,8 +42,10 @@ export default function UpdateUser() {
         try {
             setLoading(true);
             const res = await axios.put("/api/update/user/account", { name, updatedUsername: username });
+            toast.success("Username updated successfully");
             console.log(res.data);
         } catch (e) {
+            toast.error("Error updating username");
             setError("Something went wrong");
             console.log(e);
         }finally{
@@ -60,9 +63,12 @@ export default function UpdateUser() {
         }
 
         try {
+            setLoading(true);
             const res = await axios.put("/api/update/user/password", { currentPassword, newPassword });
+            toast.success("Password updated successfully. Clear the browser cookie to login again.");
             console.log(res.data);
         } catch (e) {
+            toast.error("Error updating password");
             setError("Something went wrong");
             console.log(e);
         }
@@ -96,9 +102,36 @@ export default function UpdateUser() {
                                 </div>
                             </CardContent>
                             <CardFooter>
-                                <Button onClick={handleInfoUpdate}>Save changes</Button>
-                                {error && <p className="text-red-500">{error}</p>}
-                                {loading && <p className="text-blue-500">Processing..</p>}
+                                <Button onClick={handleInfoUpdate}>
+                                {loading ? (
+  <div className="flex items-center">
+    <svg
+      className="animate-spin h-5 w-5 mr-3 text-white dark:text-black"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <circle
+        className="opacity-25"
+        cx="12"
+        cy="12"
+        r="10"
+        stroke="currentColor"
+        strokeWidth="4"
+      ></circle>
+      <path
+        className="opacity-75"
+        fill="currentColor"
+        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+      ></path>
+    </svg>
+    Processing
+  </div>
+) : (
+  "Save changes"
+)}
+
+                                </Button>
                             </CardFooter>
                         </Card>
                     </TabsContent>
@@ -121,14 +154,42 @@ export default function UpdateUser() {
                                 </div>
                             </CardContent>
                             <CardFooter>
-                                <Button onClick={handlePasswordUpdate}>Save password</Button>
-                                {error && <p className="text-red-500">{error}</p>}
-                                {loading && <p className="text-blue-500">Processing..</p>}
+                                <Button onClick={handlePasswordUpdate}>
+                                {loading ? (
+  <div className="flex items-center">
+    <svg
+      className="animate-spin h-5 w-5 mr-3 text-white dark:text-black"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <circle
+        className="opacity-25"
+        cx="12"
+        cy="12"
+        r="10"
+        stroke="currentColor"
+        strokeWidth="4"
+      ></circle>
+      <path
+        className="opacity-75"
+        fill="currentColor"
+        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+      ></path>
+    </svg>
+    Processing
+  </div>
+) : (
+  "Save Password"
+)}
+
+                                </Button>
                             </CardFooter>
                         </Card>
                     </TabsContent>
                 </Tabs>
             </div>
+            <Toaster/>
         </>
     );
 }
