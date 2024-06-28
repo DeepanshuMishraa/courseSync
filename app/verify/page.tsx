@@ -20,24 +20,24 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Link } from "lucide-react";
 
 const FormSchema = z.object({
-  username: z.string().min(2, "Username must be at least 2 characters."),
   email: z.string().email("Please enter a valid email address"),
-  password: z.string().min(8, "Password must be at least 8 characters."),
+  otp: z
+    .string()
+    .min(6, "OTP must be 6 characters")
+    .max(6, "OTP must be 6 characters"),
 });
 
-export default function Register() {
+export default function Verify() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      username: "",
       email: "",
-      password: "",
+      otp: "",
     },
   });
   const { toast } = useToast();
@@ -45,19 +45,16 @@ export default function Register() {
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     try {
       setLoading(true);
-      const response = await axios.post("/api/register", data);
+      const response = await axios.post("/api/verify-otp", data);
 
-      if (response.status === 201 || response.status === 200) {
-        toast({
-          title:
-            "Registration successful! Please check your email for verification.",
-        });
-        router.push("/verify");
+      if (response.status === 200) {
+        toast({ title: "Email verified successfully! You can now log in." });
+        router.push("/login");
       } else {
-        throw new Error("Registration failed. Please try again.");
+        throw new Error("Verification failed. Please try again.");
       }
     } catch (error: any) {
-      console.error("Error registering user:", error);
+      console.error("Error verifying OTP:", error);
       setError(error.message || "Something went wrong. Please try again.");
     } finally {
       setLoading(false);
@@ -75,25 +72,9 @@ export default function Register() {
           >
             <div className="text-center">
               <h1 className="text-4xl font-bold mb-10 dark:text-white text-black">
-                Register
+                Verify OTP
               </h1>
             </div>
-            <FormField
-              control={form.control}
-              name="username"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Username</FormLabel>
-                  <FormControl>
-                    <Input placeholder="johndoe18" {...field} />
-                  </FormControl>
-                  <FormDescription className="text-blue-700">
-                    This is your public display name.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
             <FormField
               control={form.control}
               name="email"
@@ -103,25 +84,19 @@ export default function Register() {
                   <FormControl>
                     <Input placeholder="johndoe@mail.com" {...field} />
                   </FormControl>
-                  <FormDescription className="text-blue-600">
-                    We will never share your email with anyone else.
-                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
             <FormField
               control={form.control}
-              name="password"
+              name="otp"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel>OTP</FormLabel>
                   <FormControl>
-                    <Input type="password" placeholder="******" {...field} />
+                    <Input placeholder="123456" {...field} />
                   </FormControl>
-                  <FormDescription className="text-blue-600">
-                    Password must be at least 8 characters.
-                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -150,18 +125,12 @@ export default function Register() {
                       d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                     ></path>
                   </svg>
-                  Processing
+                  Verifying
                 </div>
               ) : (
-                "Register"
+                "Verify OTP"
               )}
             </Button>
-            <FormDescription className="text-xl text-center">
-              Not a member?{" "}
-              <Link href="/login" className="text-blue-700 underline">
-                Login
-              </Link>
-            </FormDescription>
           </form>
         </Form>
       </div>

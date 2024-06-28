@@ -23,11 +23,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       );
     }
 
-    // Check if user exists
-    const existingUser = await prisma.user.findUnique({
-      where: { email },
-    });
-
+    const existingUser = await prisma.user.findUnique({ where: { email } });
     if (existingUser) {
       return NextResponse.json(
         { error: "User Already Exists" },
@@ -35,24 +31,31 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       );
     }
 
-    // Hash the password
     const salt = await bcryptjs.genSalt(10);
     const hashedPassword = await bcryptjs.hash(password, salt);
 
-    // Generate OTP (replace with your implementation)
-    const otp = Math.floor(Math.random() * 100000) + 10000;
+    const otp = Math.floor(100000 + Math.random() * 900000); // 6-digit OTP
 
-    // Create a new user with unverified status
     const newUser = await prisma.user.create({
       data: {
         username,
         email,
         password: hashedPassword,
-        verified: false, // User is not verified yet
+        verified: false,
+        otp,
       },
     });
 
-    // Create email content
+    const { SMTP_EMAIL, SMTP_PASSWORD } = process.env;
+
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: SMTP_EMAIL,
+        pass: SMTP_PASSWORD,
+      },
+    });
+
     const emailContent = `
       Hi ${username},
 
@@ -65,20 +68,8 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       This OTP is valid for 15 minutes.
 
       Sincerely,
-
       The CourseSync Team
     `;
-
-    const { SMTP_EMAIL, SMTP_PASSWORD } = process.env;
-
-    // Send OTP email
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: SMTP_EMAIL,
-        pass: SMTP_PASSWORD,
-      },
-    });
 
     await transporter.sendMail({
       from: process.env.EMAIL_FROM,
