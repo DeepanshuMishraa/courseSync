@@ -4,7 +4,8 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Providers } from "./Providers";
 import Footer from "@/components/Footer";
-import NextTopLoader from 'nextjs-toploader';
+import NextTopLoader from "nextjs-toploader";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,18 +22,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <NextTopLoader/>
-        <ThemeProvider
-        attribute="class"
-        defaultTheme="system"
-        enableSystem
-        >
-        <Providers>
-        {children}
-        </Providers>
+        <NextTopLoader />
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <Providers>{children}</Providers>
+          <Toaster />
         </ThemeProvider>
-
-        </body>
+      </body>
     </html>
-)
+  );
 }
