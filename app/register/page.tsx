@@ -48,17 +48,17 @@ export default function Register() {
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     try {
       setLoading(true);
-      const response = await axios.post("/api/register", data); // Use correct API route
+      const response = await axios.post("/api/register", data);
 
       if (response.status === 201 || response.status === 200) {
         console.log("Registration successful");
         toast({
           title:
             "Registration successful! Please check your email for verification.",
-        }); // Use a toast notification
-        router.push("/login"); // Redirect to login page after successful registration
+        });
+        router.push("/login");
       } else {
-        throw new Error("Registration failed. Please try again."); // Handle unexpected responses
+        throw new Error("Registration failed. Please try again.");
       }
     } catch (error: any) {
       console.error("Error registering user:", error);
