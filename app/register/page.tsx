@@ -1,13 +1,18 @@
-"use client"
+"use client";
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-import axios from "axios"
-import { useState } from "react"
-import { useRouter } from "next/navigation"
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
 
-import { Button } from "@/components/ui/button"
+// Import UI components from your project
+
+import { toast, useToast } from "@/components/ui/use-toast";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import Link from "next/link";
 import {
   Form,
   FormControl,
@@ -16,68 +21,66 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { toast, useToast } from "@/components/ui/use-toast"
-import Navbar from "@/components/Navbar"
-import Footer from "@/components/Footer"
-import Link from "next/link"
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 const FormSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
-  email: z.string().email({
-    message: "Please enter a valid email address"
-  }),
-  password: z.string().min(8, {
-    message: "Password must be at least 8 characters."
-  }),
-})
+  username: z.string().min(2, "Username must be at least 2 characters."),
+  email: z.string().email("Please enter a valid email address"),
+  password: z.string().min(8, "Password must be at least 8 characters."),
+});
 
 export default function Register() {
-  const [error, setError] = useState<string>("")
-  const [loading, setLoading] = useState<boolean>(false)
-  const router = useRouter()
-
-
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       username: "",
       email: "",
-      password: ""
+      password: "",
     },
-  })
+  });
+  const { toast } = useToast();
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     try {
-      form.reset();
-      setLoading(true)
-      const res = await axios.post("/api/register", data)
+      setLoading(true);
+      const response = await axios.post("/api/register", data); // Use correct API route
 
-      if (res.status === 201 || res.status === 200) {
-        console.log("success")
-        router.push("/login")
+      if (response.status === 201 || response.status === 200) {
+        console.log("Registration successful");
+        toast({
+          title:
+            "Registration successful! Please check your email for verification.",
+        }); // Use a toast notification
+        router.push("/login"); // Redirect to login page after successful registration
+      } else {
+        throw new Error("Registration failed. Please try again."); // Handle unexpected responses
       }
-    } catch (e) {
-      setError("Something went wrong. Please try again.")
-      console.log("error", e)
+    } catch (error: any) {
+      console.error("Error registering user:", error);
+      setError(error.message || "Something went wrong. Please try again.");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-
-
-  }
+  };
 
   return (
     <>
       <Navbar />
       <div className="h-screen flex items-center justify-center">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-4 p-4">
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="w-2/3 space-y-4 p-4"
+          >
             <div className="text-center">
-              <h1 className="text-4xl font-bold mb-10 dark:text-white text-black">Register</h1>
+              <h1 className="text-4xl font-bold mb-10 dark:text-white text-black">
+                Register
+              </h1>
             </div>
             <FormField
               control={form.control}
@@ -129,41 +132,44 @@ export default function Register() {
             />
             {error && <p className="text-red-500">{error}</p>}
             <Button type="submit" disabled={loading}>
-  {loading ? (
-    <div className="flex items-center">
-    <svg
-        className="animate-spin h-5 w-5 mr-3 text-white dark:text-black"
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-      >
-        <circle
-          className="opacity-25"
-          cx="12"
-          cy="12"
-          r="10"
-          stroke="currentColor"
-          strokeWidth="4"
-        ></circle>
-        <path
-          className="opacity-75"
-          fill="currentColor"
-          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-        ></path>
-      </svg>
-      Processing
-    </div>
-  ) : (
-    "Register"
-  )}
-</Button>
-<FormDescription className="text-xl text-center">not a member? <Link href="/login" className="text-blue-700 underline">Login</Link></FormDescription>
+              {loading ? (
+                <div className="flex items-center">
+                  <svg
+                    className="animate-spin h-5 w-5 mr-3 text-white dark:text-black"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                  Processing
+                </div>
+              ) : (
+                "Register"
+              )}
+            </Button>
+            <FormDescription className="text-xl text-center">
+              Not a member?{" "}
+              <Link href="/login" className="text-blue-700 underline">
+                Login
+              </Link>
+            </FormDescription>
           </form>
-          <div></div>
         </Form>
       </div>
+      <Footer />
     </>
-  )
+  );
 }
-
-
